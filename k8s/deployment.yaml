@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example
+spec:
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+      - name: example
+        imagePullPolicy: Always
+        image: fabricio211/simple:0.0.2-SNAPSHOT
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example
+spec:
+  type: NodePort
+  selector:
+    app: example
+  ports:
+  - port: 8080
+    targetPort: 8080
