@@ -7,3 +7,5 @@
   - deploy_prometheus.sh
   - grafana/grafana.sh
   - kubectl apply -f ./k8s/deployment.yaml
+  
+  
